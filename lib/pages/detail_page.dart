@@ -151,7 +151,7 @@ class DetailPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(17)),
                           ),
                           child: Text(
-                            'Rseservation Now',
+                            'Reservation Now',
                             style: whiteTextStyle.copyWith(
                               fontSize: 18,
                             ),
