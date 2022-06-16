@@ -1,4 +1,6 @@
+import 'package:provider/provider.dart';
 import 'package:wesata_mobile/models/shop.dart';
+import 'package:wesata_mobile/providers/shop_provider.dart';
 import 'package:wesata_mobile/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:wesata_mobile/widgets/bottom_navbar_item.dart';
@@ -9,6 +11,8 @@ class ListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var shopProvider = Provider.of<ShopProvider>(context);
+
     return Scaffold(
       backgroundColor: whiteColor,
       body: SafeArea(
@@ -36,91 +40,24 @@ class ListPage extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Categories:",
-                    style: blackTextStyle,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                    width: 80,
-                    height: 25,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        primary: whiteColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(17)),
-                      ),
-                      child: Text(
-                        'Product',
-                        style: blueTextStyle.copyWith(
-                          fontSize: 10,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                    width: 80,
-                    height: 25,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        primary: blueColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(17)),
-                      ),
-                      child: Text(
-                        'Category',
-                        style: whiteTextStyle.copyWith(
-                          fontSize: 10,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Column(
-                children: [
-                  ShopCard(Shop(
-                    id: 1,
-                    imageUrl: 'assets/space1.png',
-                    name: 'Toko Agus',
-                    district: 'Cimahi',
-                    city: 'Bandung',
-                  )),
-                  ShopCard(Shop(
-                    id: 1,
-                    imageUrl: 'assets/space1.png',
-                    name: 'Toko Agus',
-                    district: 'Cimahi',
-                    city: 'Bandung',
-                  )),
-                  ShopCard(Shop(
-                    id: 1,
-                    imageUrl: 'assets/space1.png',
-                    name: 'Toko Agus',
-                    district: 'Cimahi',
-                    city: 'Bandung',
-                  )),
-                  ShopCard(Shop(
-                    id: 1,
-                    imageUrl: 'assets/space1.png',
-                    name: 'Toko Agus',
-                    district: 'Cimahi',
-                    city: 'Bandung',
-                  )),
-                ],
+              FutureBuilder(
+                future: shopProvider.getShopList(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<List<Shop>> snapshot) {
+                  if (snapshot.hasData) {
+                    List<Shop> data = snapshot.requireData;
+
+                    return Column(
+                      children: data.map((Shop item) {
+                        return ShopCard(item);
+                      }).toList(),
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
               ),
               Center(
                 child: TextButton(

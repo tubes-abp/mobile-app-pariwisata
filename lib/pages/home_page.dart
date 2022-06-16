@@ -1,5 +1,7 @@
+import 'package:provider/provider.dart';
 import 'package:wesata_mobile/models/shop.dart';
 import 'package:wesata_mobile/pages/list_page.dart';
+import 'package:wesata_mobile/providers/shop_provider.dart';
 import 'package:wesata_mobile/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:wesata_mobile/widgets/bottom_navbar_item.dart';
@@ -11,6 +13,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var shopProvider = Provider.of<ShopProvider>(context);
+
     return Scaffold(
       backgroundColor: whiteColor,
       body: SafeArea(
@@ -80,30 +84,26 @@ class HomePage extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              Column(
-                children: [
-                  ShopCard(Shop(
-                    id: 1,
-                    imageUrl: 'assets/space1.png',
-                    name: 'Toko Agus',
-                    district: 'Cimahi',
-                    city: 'Bandung',
-                  )),
-                  ShopCard(Shop(
-                    id: 1,
-                    imageUrl: 'assets/space1.png',
-                    name: 'Toko Agus',
-                    district: 'Cimahi',
-                    city: 'Bandung',
-                  )),
-                  ShopCard(Shop(
-                    id: 1,
-                    imageUrl: 'assets/space1.png',
-                    name: 'Toko Agus',
-                    district: 'Cimahi',
-                    city: 'Bandung',
-                  )),
-                ],
+              FutureBuilder(
+                future: shopProvider.getShopList(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<List<Shop>> snapshot) {
+                  if (snapshot.hasData) {
+                    List<Shop> data = snapshot.requireData;
+
+                    return Column(
+                      children: data.map((Shop item) {
+                        return Container(
+                          child: item.id! < 4 ? ShopCard(item) : null,
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
               ),
               Center(
                 child: TextButton(

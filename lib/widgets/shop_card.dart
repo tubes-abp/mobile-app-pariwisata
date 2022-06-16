@@ -14,7 +14,7 @@ class ShopCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const DetailPage(),
+            builder: (context) => DetailPage(shop),
           ),
         );
       },
@@ -29,40 +29,12 @@ class ShopCard extends StatelessWidget {
                 height: 100,
                 child: Stack(
                   children: [
-                    Image.asset(
+                    Image.network(
                       shop.imageUrl.toString(),
                       width: 120,
                       height: 100,
                       fit: BoxFit.cover,
                     ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        width: 70,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            color: blueColor,
-                            borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(36),
-                            )),
-                        child: Center(
-                            child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/icon_star.png',
-                              width: 22,
-                              height: 22,
-                            ),
-                            Text(
-                              "2/5",
-                              style: whiteTextStyle.copyWith(fontSize: 13),
-                            )
-                          ],
-                        )),
-                      ),
-                    )
                   ],
                 ),
               ),
@@ -70,27 +42,31 @@ class ShopCard extends StatelessWidget {
             const SizedBox(
               width: 20,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  shop.name.toString(),
-                  style: blackTextStyle.copyWith(
-                    fontSize: 18,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    shop.name.toString(),
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 2,
-                ),
-                const SizedBox(
-                  height: 2,
-                ),
-                Text(
-                  '${shop.district}, ${shop.city}',
-                  style: greyTextStyle,
-                )
-              ],
-            )
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  Text(
+                    '${shop.address?.district}, ${shop.address?.province}',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

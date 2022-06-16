@@ -1,21 +1,28 @@
+import 'package:provider/provider.dart';
 import 'package:wesata_mobile/models/product.dart';
+import 'package:wesata_mobile/models/shop.dart';
+import 'package:wesata_mobile/pages/list_product_page.dart';
+import 'package:wesata_mobile/providers/shop_provider.dart';
 import 'package:wesata_mobile/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:wesata_mobile/widgets/product_card.dart';
 import 'package:wesata_mobile/widgets/rating_item.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({super.key});
+  final Shop shop;
+  const DetailPage(this.shop, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    var shopProvider = Provider.of<ShopProvider>(context);
+
     return Scaffold(
       backgroundColor: whiteColor,
       body: SafeArea(
         bottom: false,
         child: Stack(children: [
-          Image.asset(
-            'assets/thumbnail.png',
+          Image.network(
+            'https://res.cloudinary.com/bagastri07/image/upload/v1655130980/shopWesataIcon/kayak_hipsbf.png',
             width: MediaQuery.of(context).size.width,
             height: 350,
             fit: BoxFit.cover,
@@ -51,7 +58,7 @@ class DetailPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Toko Agus',
+                                shop.name.toString(),
                                 style: blackTextStyle.copyWith(
                                   fontSize: 22,
                                 ),
@@ -87,7 +94,7 @@ class DetailPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Jl Peta Selatan\nBandung",
+                            '${shop.address!.street.toString()}\n${shop.address!.district}',
                             style: greyTextStyle,
                           ),
                           InkWell(
@@ -112,30 +119,52 @@ class DetailPage extends StatelessWidget {
                       const SizedBox(
                         height: 16,
                       ),
-                      Column(
-                        children: [
-                          ProductCard(Product(
-                            id: 1,
-                            imageUrl: 'assets/space1.png',
-                            name: 'Toko Agus',
-                            price: 100000,
-                          )),
-                          ProductCard(Product(
-                            id: 1,
-                            imageUrl: 'assets/space1.png',
-                            name: 'Toko Agus',
-                            price: 100000,
-                          )),
-                          ProductCard(Product(
-                            id: 1,
-                            imageUrl: 'assets/space1.png',
-                            name: 'Toko Agus',
-                            price: 100000,
-                          )),
-                        ],
+                      FutureBuilder(
+                        future: shopProvider.getProductListByShopID(shop.id!),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<Product>> snapshot) {
+                          if (snapshot.hasData) {
+                            List<Product> data = snapshot.requireData;
+
+                            return Column(
+                              children: data.asMap().entries.map((entry) {
+                                int idx = entry.key;
+                                Product item = entry.value;
+                                return Container(
+                                  child: idx < 4 ? ProductCard(item) : null,
+                                );
+                              }).toList(),
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
                       ),
                       const SizedBox(
-                        height: 40,
+                        height: 5,
+                      ),
+                      Center(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ListProductPage(shop),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'See More',
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
                       ),
                       Container(
                         margin: EdgeInsets.symmetric(
