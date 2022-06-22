@@ -59,17 +59,6 @@ class ListPage extends StatelessWidget {
                   }
                 },
               ),
-              Center(
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'See More',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-              ),
               SizedBox(
                 height: 50 + edge,
               ),

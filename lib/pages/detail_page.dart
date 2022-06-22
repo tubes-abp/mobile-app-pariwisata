@@ -8,7 +8,6 @@ import 'package:wesata_mobile/providers/shop_provider.dart';
 import 'package:wesata_mobile/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:wesata_mobile/widgets/product_card.dart';
-import 'package:wesata_mobile/widgets/rating_item.dart';
 
 class DetailPage extends StatelessWidget {
   final Shop shop;
@@ -84,13 +83,6 @@ class DetailPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Row(
-                            children: [1, 2, 3, 4, 5]
-                                .map(
-                                  (idx) => RatingItem(idx, 5),
-                                )
-                                .toList(),
-                          )
                         ],
                       ),
                       const SizedBox(
