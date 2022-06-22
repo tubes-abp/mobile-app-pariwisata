@@ -23,3 +23,13 @@ TextStyle blueTextStyle =
 
 TextStyle regularTextStyle =
     GoogleFonts.poppins(fontWeight: FontWeight.w400, color: blackColor);
+
+ButtonStyle btnCategoriesActiveStyle = ElevatedButton.styleFrom(
+  primary: blueColor,
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
+);
+
+ButtonStyle btnCategoriesNonActiveStyle = ElevatedButton.styleFrom(
+  primary: whiteColor,
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
+);

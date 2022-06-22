@@ -23,9 +23,15 @@ class ShopProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<Product>> getProductListByShopID(int shopID) async {
+  Future<List<Product>> getProductListByShopID(int shopID,
+      [String type = ""]) async {
+    String url = 'https://api-abp.bagas3.my.id/public/products/$shopID';
+    if (type != "") {
+      url =
+          'https://api-abp.bagas3.my.id/public/products/$shopID?filter[type]=$type';
+    }
     var result = await http.get(
-      Uri.parse('https://api-abp.bagas3.my.id/public/products/$shopID'),
+      Uri.parse(url),
     );
 
     if (result.statusCode == 200) {

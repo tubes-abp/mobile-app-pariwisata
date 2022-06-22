@@ -1,6 +1,8 @@
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wesata_mobile/models/product.dart';
 import 'package:wesata_mobile/models/shop.dart';
+import 'package:wesata_mobile/pages/error_page.dart';
 import 'package:wesata_mobile/pages/list_product_page.dart';
 import 'package:wesata_mobile/providers/shop_provider.dart';
 import 'package:wesata_mobile/theme.dart';
@@ -15,6 +17,20 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var shopProvider = Provider.of<ShopProvider>(context);
+
+    launchTelepon(String url) async {
+      if (await canLaunchUrl(Uri.parse(url))) {
+        launchUrl(Uri.parse(url));
+      } else {
+        // throw 'couldnt open telepon';
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ErrorPage(),
+          ),
+        );
+      }
+    }
 
     return Scaffold(
       backgroundColor: whiteColor,
@@ -173,7 +189,9 @@ class DetailPage extends StatelessWidget {
                         width: MediaQuery.of(context).size.width - (2 * edge),
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            launchTelepon('tel:${shop.phoneNumber}');
+                          },
                           style: ElevatedButton.styleFrom(
                             primary: blueColor,
                             shape: RoundedRectangleBorder(

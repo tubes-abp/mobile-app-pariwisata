@@ -4,12 +4,14 @@ class Shop {
   int? id;
   String? name;
   String? imageUrl;
+  String? phoneNumber;
   Address? address;
 
   Shop({
     this.id,
     this.name,
     this.imageUrl,
+    this.phoneNumber,
     this.address,
   });
 
@@ -25,5 +27,6 @@ class Shop {
     id = json['id'];
     name = json['shop'];
     imageUrl = json['shop_img_url'];
+    phoneNumber = json['phone_number'];
   }
 }
