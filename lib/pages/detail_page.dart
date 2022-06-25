@@ -106,7 +106,10 @@ class DetailPage extends StatelessWidget {
                             style: greyTextStyle,
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              launchTelepon(
+                                  'https://www.google.com/maps/search/?api=1&query=${shop.address!.latitude},${shop.address!.longitude}');
+                            },
                             child: Image.asset(
                               'assets/btn_map.png',
                               width: 40,
