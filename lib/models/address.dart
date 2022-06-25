@@ -3,16 +3,14 @@ class Address {
   String? postCode;
   String? province;
   String? street;
-  double? latitude;
-  double? longitude;
+  String? linkMap;
 
   Address({
     this.district,
     this.postCode,
     this.province,
     this.street,
-    this.latitude,
-    this.longitude,
+    this.linkMap,
   });
 
   Address.fromjson(json) {
@@ -20,7 +18,6 @@ class Address {
     postCode = json['postCode'];
     province = json['province'];
     street = json['street'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    linkMap = json['link_map'];
   }
 }

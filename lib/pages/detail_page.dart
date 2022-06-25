@@ -107,8 +107,7 @@ class DetailPage extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              launchTelepon(
-                                  'https://www.google.com/maps/search/?api=1&query=${shop.address!.latitude},${shop.address!.longitude}');
+                              launchTelepon(shop.address!.linkMap.toString());
                             },
                             child: Image.asset(
                               'assets/btn_map.png',
