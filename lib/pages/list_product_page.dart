@@ -75,7 +75,7 @@ class _ListProductPageState extends State<ListProductPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Categories: ${categoriesActive[0]}",
+                    "Categories:",
                     style: blackTextStyle,
                   ),
                   const SizedBox(
